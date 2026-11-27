@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="Logo de MediTime">
+  <title>MediTime</title>
+  <!-- Reloj: circulo exterior + marcas de las 12, 3 y 9 -->
+  <circle cx="50" cy="50" r="45" fill="#102D25" stroke="#78917A" stroke-width="1.6"/>
+  <g stroke="#78917A" stroke-width="1.6" stroke-linecap="round">
+    <line x1="50" y1="8.5" x2="50" y2="13"/>
+    <line x1="91.5" y1="50" x2="87" y2="50"/>
+    <line x1="9.5" y1="50" x2="14" y2="50"/>
+  </g>
+  <!-- Corazon formado por dos hojas que se encuentran en el tallo -->
+  <path d="M50 66 C36 57 27 46 29.5 37 C32 28.5 44.5 28 50 38.5 Z" fill="#B8C7AD" fill-opacity=".16" stroke="#B8C7AD" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M50 66 C64 57 73 46 70.5 37 C68 28.5 55.5 28 50 38.5 Z" fill="#B8C7AD" fill-opacity=".16" stroke="#B8C7AD" stroke-width="2" stroke-linejoin="round"/>
+  <!-- Nervaduras de las hojas -->
+  <g stroke="#78917A" stroke-width="1.2" stroke-linecap="round" fill="none">
+    <path d="M50 62 C43 55 37 48 34 41"/>
+    <path d="M50 62 C57 55 63 48 66 41"/>
+  </g>
+  <!-- Agujas del reloj dentro del corazon -->
+  <g stroke="#E7E9DC" stroke-width="2" stroke-linecap="round">
+    <line x1="50" y1="48" x2="50" y2="39.5"/>
+    <line x1="50" y1="48" x2="56" y2="52"/>
+  </g>
+  <circle cx="50" cy="48" r="1.7" fill="#E7E9DC"/>
+  <!-- Tallo y brote -->
+  <path d="M50 66 L50 84" stroke="#B8C7AD" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+  <path d="M50 78 C50 73 55 70.5 59 71.5 C59 76 55 79 50 78 Z" fill="#78917A" stroke="#B8C7AD" stroke-width="1.2" stroke-linejoin="round"/>
+</svg>

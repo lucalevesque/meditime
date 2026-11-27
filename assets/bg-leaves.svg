@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+  <defs>
+    <linearGradient id="l1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#355C49" stop-opacity=".75"/>
+      <stop offset="1" stop-color="#1B4034" stop-opacity=".2"/>
+    </linearGradient>
+    <linearGradient id="l2" x1="1" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#78917A" stop-opacity=".35"/>
+      <stop offset="1" stop-color="#1B4034" stop-opacity=".1"/>
+    </linearGradient>
+  </defs>
+  <!-- Hojas grandes y difuminadas, solo decorativas -->
+  <path d="M430 60 C300 90 230 200 250 330 C380 320 460 200 430 60 Z" fill="url(#l1)"/>
+  <path d="M430 60 C350 150 300 230 252 328" stroke="#B8C7AD" stroke-opacity=".18" stroke-width="2" fill="none"/>
+  <path d="M-40 420 C80 380 200 430 230 560 C100 600 -30 540 -40 420 Z" fill="url(#l2)"/>
+  <path d="M-40 420 C60 460 160 510 230 560" stroke="#B8C7AD" stroke-opacity=".15" stroke-width="2" fill="none"/>
+  <path d="M440 520 C330 540 270 640 290 760 C400 750 470 640 440 520 Z" fill="url(#l1)"/>
+  <path d="M-30 -20 C60 20 120 90 110 190 C20 180 -40 100 -30 -20 Z" fill="url(#l2)"/>
+</svg>

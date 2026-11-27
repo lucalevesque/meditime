@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>MediTime: tus horarios, organizados</title>
+  <meta name="description" content="MediTime: registrá tus tomas y calculá cuándo corresponde la siguiente.">
+  <meta name="theme-color" content="#102D25">
+
+  <!-- PWA e iOS -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="apple-touch-icon" href="assets/icons/icon-180.png">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="MediTime">
+
+  <!-- Tipografías (si no cargan, se usan las del sistema) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap">
+
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="bg-leaves" aria-hidden="true"></div>
+
+  <!-- Aviso si LocalStorage no funciona -->
+  <div id="storage-banner" class="banner" role="alert" hidden></div>
+
+  <!-- ===== Pantalla de bienvenida (solo la primera vez) ===== -->
+  <main id="welcome" class="welcome" hidden>
+    <div class="welcome-inner">
+      <img class="welcome-logo" src="assets/logo.svg" alt="" width="132" height="132">
+      <h1 class="brand brand-lg">MediTime</h1>
+      <p class="tagline">aunque sé que te podes cuidar solo, amo ayudarte</p>
+      <p class="welcome-text">Confirmame cuándo fue la última toma de cada medicamento.</p>
+      <form id="welcome-form" class="glass form-card" novalidate>
+        <div id="welcome-fields"></div>
+        <p id="welcome-error" class="form-error" role="alert" hidden></p>
+        <button type="submit" class="btn btn-primary">Comenzar</button>
+      </form>
+      <p class="fineprint">Para organizar tus medicamentos mi peque</p>
+    </div>
+  </main>
+
+  <!-- ===== Aplicación ===== -->
+  <div id="app" hidden>
+    <header class="app-header">
+      <img class="header-logo" src="assets/logo.svg" alt="" width="52" height="52">
+      <div class="header-text">
+        <p class="brand">MediTime</p>
+        <p class="subtitle">Tus horarios, organizados</p>
+      </div>
+      <p id="today" class="today"></p>
+    </header>
+
+    <main class="container">
+      <!-- Inicio -->
+      <section id="view-home" class="view" aria-label="Inicio">
+        <div id="cards" class="cards"></div>
+      </section>
+
+      <!-- Historial -->
+      <section id="view-history" class="view" aria-label="Historial" hidden>
+        <h2 class="view-title">Historial</h2>
+        <div id="history-tabs" class="segmented" role="tablist" aria-label="Medicamento"></div>
+        <ul id="history-list" class="history-list"></ul>
+      </section>
+
+      <!-- Configuración -->
+      <section id="view-settings" class="view" aria-label="Configuración" hidden>
+        <h2 class="view-title">Configuración</h2>
+        <form id="settings-form" novalidate>
+          <div id="settings-fields"></div>
+          <p id="settings-error" class="form-error" role="alert" hidden></p>
+          <button type="submit" class="btn btn-primary">Guardar cambios</button>
+        </form>
+
+        <div class="glass form-card options-card">
+          <label class="switch">
+            <input type="checkbox" id="notif-toggle">
+            <span class="switch-ui" aria-hidden="true"></span>
+            <span class="switch-text">Avisos del navegador (opcional)
+              <small>Solo suenan si MediTime está abierta. No reemplazan una alarma.</small>
+            </span>
+          </label>
+        </div>
+
+      
+  <div class="glass form-card note-card">
+          <h3>Dónde se guardan tus datos</h3>
+          <p>Los registros viven solo en el navegador y borrar los datos del navegador los elimina.</p>
+          <button type="button" id="reset-btn" class="btn btn-danger">Restablecer valores iniciales</button>
+        </div>
+      </section>
+      
+    </main>
+
+    <nav class="bottom-nav" aria-label="Secciones">
+      <button type="button" class="nav-btn is-active" data-view="home" aria-current="page">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11.5 12 5l8 6.5V19a1 1 0 0 1-1 1h-4v-5h-6v5H5a1 1 0 0 1-1-1z"/></svg>
+        <span>Inicio</span>
+      </button>
+      <button type="button" class="nav-btn" data-view="history">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 8v4.5l3 2"/></svg>
+        <span>Historial</span>
+      </button>
+      <button type="button" class="nav-btn" data-view="settings">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7h9M18 7h1M5 17h1M10 17h9"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg>
+        <span>Ajustes</span>
+      </button>
+    </nav>
+  </div>
+
+  <!-- ===== Ventana: registrar o editar una toma ===== -->
+  <dialog id="dose-dialog" class="glass dialog" aria-labelledby="dose-title">
+    <form id="dose-form" novalidate>
+      <h2 id="dose-title" class="dialog-title"></h2>
+      <p id="dose-med" class="dialog-sub"></p>
+      <div class="field">
+        <label for="dose-date">Fecha</label>
+        <input type="date" id="dose-date" required>
+      </div>
+      <div class="field">
+        <label for="dose-time">Hora</label>
+        <input type="time" id="dose-time" required>
+      </div>
+      <p id="dose-error" class="form-error" role="alert" hidden></p>
+      <div class="dialog-actions">
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <button type="button" id="dose-cancel" class="btn btn-glass">Cancelar</button>
+        <button type="button" id="dose-delete" class="btn btn-danger" hidden>Eliminar registro</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- ===== Ventana: confirmación ===== -->
+  <dialog id="confirm-dialog" class="glass dialog" aria-labelledby="confirm-title">
+    <h2 id="confirm-title" class="dialog-title"></h2>
+    <p id="confirm-message" class="dialog-text"></p>
+    <div class="dialog-actions">
+      <button type="button" id="confirm-ok" class="btn btn-primary">Confirmar</button>
+      <button type="button" id="confirm-cancel" class="btn btn-glass">Cancelar</button>
+    </div>
+  </dialog>
+
+  <!-- Mensajes breves -->
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+  <!-- Orden de carga: cada archivo usa los anteriores -->
+  <script src="js/storage.js"></script>
+  <script src="js/medication.js"></script>
+  <script src="js/timer.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
