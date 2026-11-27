@@ -294,7 +294,10 @@
         '<input type="time" id="s-time-' + i + '" value="' + v.time + '"></div></div>' +
         '</fieldset>';
     }).join('');
-    $('#notif-toggle').checked = state.notifications && 'Notification' in window && Notification.permission === 'granted';
+    const notifToggle = $('#notif-toggle');
+    if (notifToggle) {
+      notifToggle.checked = state.notifications && 'Notification' in window && Notification.permission === 'granted';
+    }
     showFormError($('#settings-error'), '');
   }
 
@@ -443,7 +446,8 @@
     $('#dose-cancel').addEventListener('click', () => $('#dose-dialog').close());
     $('#dose-delete').addEventListener('click', onDoseDelete);
     $('#settings-form').addEventListener('submit', onSettingsSubmit);
-    $('#notif-toggle').addEventListener('change', onNotifToggle);
+    const notifToggle = $('#notif-toggle');
+    if (notifToggle) notifToggle.addEventListener('change', onNotifToggle);
     $('#reset-btn').addEventListener('click', onReset);
     $$('.nav-btn').forEach(b => b.addEventListener('click', () => showView(b.dataset.view)));
     $('#history-tabs').addEventListener('click', e => {
